@@ -1,0 +1,233 @@
+{
+	"Connect db": {
+		"prefix": "api__db",
+		"body": [
+			"builder.Services.AddDbContext<$1>(o => o.UseSqlServer(builder.Configuration.GetConnectionString(\"$2\")));",
+			""
+		],
+		"description": "Connect db"
+	},
+	"API GETALL": {
+		"prefix": "api__get",
+		"body": [
+			"[HttpGet]",
+			"public asyncTask<Response> GetList()",
+			"{",
+			"    try",
+			"    {",
+			"        res = await _service.GetListAsync();",
+			"    }",
+			"    catch (Exception ex)",
+			"    {",
+			"        res.Status = 0;",
+			"        res.Message = ex.Message;",
+			"    }",
+			"    return res;",
+			"}"
+		],
+		"description": "API GETALL"
+	},
+	"API GETID": {
+		"prefix": "api__getid",
+		"body": [
+			"[HttpGet]",
+			"public asyncTask<Response> GetById(int id)",
+			"{",
+			"try",
+			"{",
+			"res = await _service.GetById(id);",
+			"}",
+			"catch (Exception ex)",
+			"{",
+			"res.Status = 0;",
+			"res.Message = ex.Message;",
+			"}",
+			"return res;",
+			"}"
+		],
+		"description": "API GETID"
+	},
+	"API CREATE": {
+		"prefix": "api__create",
+		"body": [
+			"[HttpPost]",
+			"public asyncTask<Response> Create(AddressDTO model)",
+			"{",
+			"try",
+			"{",
+			"res = await _service.Create(model);",
+			"}",
+			"catch (Exception ex)",
+			"{",
+			"res.Status = 0;",
+			"res.Message = ex.Message;",
+			"}",
+			"return res;",
+			"}"
+		],
+		"description": "API CREATE"
+	},
+	"API UPDATE": {
+		"prefix": "api__update",
+		"body": [
+			"[HttpPut]",
+			"public asyncTask<Response> Update(AddressDTO model, int id)",
+			"{",
+			"try",
+			"{",
+			"res = await _service.Update(model, id);",
+			"}",
+			"catch (Exception ex)",
+			"{",
+			"res.Status = 0;",
+			"res.Message = ex.Message;",
+			"}",
+			"return res;",
+			"}"
+		],
+		"description": "API UPDATE"
+	},
+	"API DELETE": {
+		"prefix": "api__delete",
+		"body": [
+			"[HttpDelete]",
+			"public asyncTask<Response> Delete(int id)",
+			"{",
+			"try",
+			"{",
+			"res = await _service.Delete(id);",
+			"}",
+			"catch (Exception ex)",
+			"{",
+			"res.Status = 0;",
+			"res.Message = ex.Message;",
+			"}",
+			"return res;",
+			"}"
+		],
+		"description": "API DELETE"
+	},
+	"API INTERFACE": {
+		"prefix": "api__interface",
+		"body": [
+			"public interface $1",
+			"{",
+			"Task<Response> GetListAsync();",
+			"Task<Response> GetById(int id);",
+			"Task<Response> Create($2 model);",
+			"Task<Response> Update($2 model, int id);",
+			"Task<Response> Delete(int id);",
+			"}"
+		],
+		"description": "API INTERFACE"
+	},
+	"API RESPONSE": {
+		"prefix": "api__response",
+		"body": [
+			"public int Status { get; set; }",
+			"public string Message { get; set; }",
+			"public dynamic Data { get; set; }"
+		],
+		"description": "API RESPONSE"
+	},
+	"API TRY-CATCH": {
+		"prefix": "api__try",
+		"body": [
+			"Response res = new Response();",
+			"try",
+			"{",
+			"",
+			"res.Status = 201;",
+			"res.Message = \"\";",
+			"res.Data = ;",
+			"}",
+			"catch (Exception ex)",
+			"{",
+			"res.Status = 400;",
+			"res.Message = ex.InnerException?.Message ?? ex.Message;",
+			"}",
+			"return res;"
+		],
+		"description": "API TRY-CATCH"
+	},
+	"API AUTOMAPPER": {
+		"prefix": "api__map",
+		"body": [
+			"builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly); "
+		],
+		"description": "API AUTOMAPPER"
+	},
+	"API PROGRAM": {
+		"prefix": "api__prog",
+		"body": [
+			"using Microsoft.Extensions.DependencyInjection;",
+			"",
+			"var builder = WebApplication.CreateBuilder(args);",
+			"",
+			"builder.Services.AddControllers();",
+			"builder.Services.AddEndpointsApiExplorer();",
+			"builder.Services.AddSwaggerGen();",
+			"",
+			"var app = builder.Build();",
+			"",
+			"if (app.Environment.IsDevelopment())",
+			"{",
+			"    app.UseSwagger();",
+			"    app.UseSwaggerUI();",
+			"}",
+			"",
+			"",
+			"app.UseHttpsRedirection();",
+			"",
+			"app.MapControllers();",
+			"",
+			"app.Run();"
+		],
+		"description": "API PROGRAM"
+	},
+	"API DBCONTEXT": {
+		"prefix": "api__dbcontext",
+		"body": [
+			"Scaffold-DbContext \"Data Source=localhost;Initial Catalog=DbECommer;Integrated Security=True;Encrypt=True;Trust Server Certificate=True\" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entity -ContextDir Data -context DbECommer"
+		],
+		"description": "API DBCONTEXT"
+	},
+	"Create C# Class": {
+		"prefix": "csclass",
+		"body": [
+			"namespace DbEcommer",
+			"{",
+			"    public class ${1:ClassName}",
+			"    {",
+			"    }",
+			"}"
+		],
+		"description": "Creates a C# class within the DbEcommer namespace"
+	},
+
+	"API CONTROLLER": {
+  "prefix": "api_controller",
+  "body": [
+    "using Microsoft.AspNetCore.Http;",
+    "using Microsoft.AspNetCore.Mvc;",
+    "",
+    "namespace $1.Controllers",
+    "{",
+    "[Route(\"[controller]/[action]\")]",
+    "[ApiController]",
+    "public class $1 : ControllerBase",
+    "{",
+    "              private readonly $2 _service;",
+    "              Response res = new Response();",
+    "              public $1($2 service)",
+    "              {",
+    "_service = service;",
+    "              }",
+    "",
+    "}",
+    "}",
+    ""
+  ],
+  "description": "API CONTROLLER"
+}
+}
